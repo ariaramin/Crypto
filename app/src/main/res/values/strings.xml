@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Crypto</string>
+    <string name="home">Home</string>
+    <string name="market">Market</string>
+    <string name="watch_list">Watchlist</string>
+</resources>
