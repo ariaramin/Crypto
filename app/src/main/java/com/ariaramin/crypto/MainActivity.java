@@ -13,6 +13,7 @@ import android.net.Network;
 import android.net.NetworkRequest;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void callApiRequest() {
-        Observable.interval(15, TimeUnit.SECONDS)
+        Observable.interval(5, TimeUnit.SECONDS)
                 .flatMap(n -> mainViewModel.getAllMarket())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

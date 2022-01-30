@@ -8,7 +8,7 @@ import com.ariaramin.crypto.Models.AllMarket;
 @Entity(tableName = "allMarket_tbl")
 public class AllMarketEntity {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     public long id;
 
     public AllMarket allMarket;

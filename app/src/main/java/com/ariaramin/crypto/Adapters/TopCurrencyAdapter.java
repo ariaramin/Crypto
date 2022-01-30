@@ -45,8 +45,9 @@ public class TopCurrencyAdapter extends RecyclerView.Adapter<TopCurrencyAdapter.
         return dataItems.size();
     }
 
-    public void updateList(ArrayList<DataItem> dataItemList) {
-        dataItems = dataItemList;
+    public void updateList(List<DataItem> dataItemList) {
+        dataItems.clear();
+        dataItems.addAll(dataItemList);
         notifyDataSetChanged();
     }
 
@@ -87,24 +88,5 @@ public class TopCurrencyAdapter extends RecyclerView.Adapter<TopCurrencyAdapter.
             }
         }
 
-//        private void setPriceDecimal(DataItem dataItem) {
-//            if (dataItem.getListQuote().get(0).getPrice() < 1) {
-//                topCurrencyLayoutBinding.topCurrencyChangeTextView.setText(String.format("%.6f", dataItem.getListQuote().get(0).getPrice()));
-//            } else if (dataItem.getListQuote().get(0).getPrice() < 10) {
-//                topCurrencyLayoutBinding.topCurrencyChangeTextView.setText(String.format("%.4f", dataItem.getListQuote().get(0).getPrice()));
-//            } else {
-//                topCurrencyLayoutBinding.topCurrencyChangeTextView.setText(String.format("%.2f", dataItem.getListQuote().get(0).getPrice()));
-//            }
-//        }
-
-//        private void setTextColor(DataItem dataItem) {
-//            if (dataItem.getListQuote().get(0).getPercentChange24h() < 0) {
-//                int red = topCurrencyLayoutBinding.getRoot().getContext().getResources().getColor(R.color.red);
-//                topCurrencyLayoutBinding.topCurrencyPriceTextView.setTextColor(red);
-//            } else {
-//                int green = topCurrencyLayoutBinding.getRoot().getContext().getResources().getColor(R.color.green);
-//                topCurrencyLayoutBinding.topCurrencyPriceTextView.setTextColor(green);
-//            }
-//        }
     }
 }

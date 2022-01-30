@@ -3,4 +3,8 @@
     <string name="home">Home</string>
     <string name="market">Market</string>
     <string name="watch_list">Watchlist</string>
+    <string name="top_gainers">Top Gainers</string>
+    <string name="top_losers">Top Losers</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

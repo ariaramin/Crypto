@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimaryVariant"
+            android:background="@color/royal_blue_dark"
             android:elevation="0dp"
             app:menu="@menu/toolbar_menu"
             app:title="Crypto"

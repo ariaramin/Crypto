@@ -16,7 +16,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/colorPrimary"
+            android:background="@color/dark_blue"
             tools:context=".MainActivity">
 
             <androidx.fragment.app.FragmentContainerView
@@ -35,10 +35,11 @@
                 android:id="@+id/bottomBar"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
-                app:backgroundColor="?attr/colorPrimaryVariant"
+                app:backgroundColor="@color/royal_blue_dark"
                 app:iconMargin="8dp"
                 app:iconSize="24dp"
                 app:indicatorRadius="8dp"
+                android:elevation="12dp"
                 app:itemFontFamily="@font/nunito_medium"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

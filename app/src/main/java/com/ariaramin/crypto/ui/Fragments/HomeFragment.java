@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -16,27 +15,27 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 
 import com.ariaramin.crypto.Adapters.SliderAdapter;
 import com.ariaramin.crypto.Adapters.TopCurrencyAdapter;
+import com.ariaramin.crypto.Adapters.TopGainLosePagerAdapter;
 import com.ariaramin.crypto.MainActivity;
 import com.ariaramin.crypto.Models.DataItem;
 import com.ariaramin.crypto.R;
 import com.ariaramin.crypto.Room.Entities.AllMarketEntity;
 import com.ariaramin.crypto.MainViewModel;
 import com.ariaramin.crypto.databinding.FragmentHomeBinding;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -76,7 +75,41 @@ public class HomeFragment extends Fragment {
 
         getAllMarket();
         setupViewPager();
+        setupTabLayout();
         return homeBinding.getRoot();
+    }
+
+    private void setupTabLayout() {
+        TopGainLosePagerAdapter topGainLosePagerAdapter = new TopGainLosePagerAdapter(this);
+        homeBinding.contentViewPager.setAdapter(topGainLosePagerAdapter);
+
+        homeBinding.contentViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+
+                if (position == 0) {
+                    homeBinding.topGainIndicator.setVisibility(View.VISIBLE);
+                    homeBinding.topLoseIndicator.setVisibility(View.GONE);
+                } else {
+                    homeBinding.topGainIndicator.setVisibility(View.GONE);
+                    homeBinding.topLoseIndicator.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        new TabLayoutMediator(homeBinding.tabLayout, homeBinding.contentViewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                String title;
+                if (position == 0) {
+                    title = requireContext().getResources().getString(R.string.top_gainers);
+                } else {
+                    title = requireContext().getResources().getString(R.string.top_losers);
+                }
+                tab.setText(title);
+            }
+        }).attach();
     }
 
     private void getAllMarket() {
@@ -87,9 +120,13 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void accept(AllMarketEntity allMarketEntity) throws Throwable {
                         List<DataItem> dataItems = allMarketEntity.getAllMarket().getData().getCryptoCurrencyList().subList(0, 10);
+
                         if (homeBinding.topCurrencyRecyclerView.getAdapter() == null) {
                             TopCurrencyAdapter topCurrencyAdapter = new TopCurrencyAdapter(dataItems);
                             homeBinding.topCurrencyRecyclerView.setAdapter(topCurrencyAdapter);
+                        } else {
+                            TopCurrencyAdapter topCurrencyAdapter = (TopCurrencyAdapter) homeBinding.topCurrencyRecyclerView.getAdapter();
+                            topCurrencyAdapter.updateList(dataItems);
                         }
                     }
                 });

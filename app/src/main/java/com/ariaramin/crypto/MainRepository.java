@@ -13,6 +13,7 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
@@ -20,10 +21,12 @@ public class MainRepository {
 
     RequestApi requestApi;
     DatabaseDao databaseDao;
+    CompositeDisposable compositeDisposable;
 
     public MainRepository(RequestApi requestApi, DatabaseDao databaseDao) {
         this.requestApi = requestApi;
         this.databaseDao = databaseDao;
+        compositeDisposable = new CompositeDisposable();
     }
 
     public Observable<AllMarket> getAllMarketList() {
@@ -37,7 +40,7 @@ public class MainRepository {
                 .subscribe(new CompletableObserver() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-
+                        compositeDisposable.add(d);
                     }
 
                     @Override
