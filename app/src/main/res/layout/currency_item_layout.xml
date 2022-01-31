@@ -8,9 +8,13 @@
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/currencyCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
         app:cardBackgroundColor="@color/royal_blue_dark"
         app:cardCornerRadius="12dp"
         app:cardElevation="8dp">
@@ -25,8 +29,9 @@
                 android:id="@+id/currencyImageView"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
+                android:layout_marginStart="6dp"
                 app:layout_constraintBottom_toBottomOf="@+id/currencySymbolTextView"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView"
                 app:layout_constraintTop_toTopOf="@+id/currencyNameTextView"
                 tools:srcCompat="@tools:sample/avatars" />
 
@@ -51,7 +56,6 @@
                 android:layout_marginTop="4dp"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/currencyNameTextView"
                 app:layout_constraintTop_toBottomOf="@+id/currencyNameTextView"
                 tools:text="BTC" />
@@ -60,9 +64,9 @@
                 android:id="@+id/currencyChartImageView"
                 android:layout_width="90dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="@+id/currencyChangeTextView"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/currencyPriceTextView"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <TextView
@@ -71,10 +75,11 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/currencyNameTextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/currencyNameTextView"
                 tools:text="123.35353" />
 
             <ImageView
@@ -93,7 +98,6 @@
                 android:layout_marginTop="4dp"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/currencyPriceTextView"
                 app:layout_constraintStart_toStartOf="@+id/currencyPriceTextView"
                 app:layout_constraintTop_toBottomOf="@+id/currencyPriceTextView"

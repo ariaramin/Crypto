@@ -33,6 +33,7 @@ import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import me.ibrahimsn.lib.SmoothBottomBar;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
@@ -47,12 +48,14 @@ public class MainActivity extends AppCompatActivity {
     ConnectivityManager connectivityManager;
     @Inject
     NetworkRequest networkRequest;
+    public SmoothBottomBar smoothBottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         drawerLayout = activityMainBinding.drawerLayout;
+        smoothBottomBar = activityMainBinding.bottomBar;
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         compositeDisposable = new CompositeDisposable();
 

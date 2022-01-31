@@ -1,10 +1,13 @@
 package com.ariaramin.crypto.Adapters;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ariaramin.crypto.Models.DataItem;
@@ -64,6 +67,14 @@ public class TopCurrencyAdapter extends RecyclerView.Adapter<TopCurrencyAdapter.
             loadCoinLogo(dataItem);
             setChangeText(dataItem);
             topCurrencyLayoutBinding.topCurrencyNameTextView.setText(dataItem.getName());
+            topCurrencyLayoutBinding.topCurrencyCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("Coin", dataItem);
+                    Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_detailFragment, bundle);
+                }
+            });
             topCurrencyLayoutBinding.executePendingBindings();
         }
 

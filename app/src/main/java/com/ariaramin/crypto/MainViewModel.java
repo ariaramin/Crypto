@@ -1,6 +1,9 @@
 package com.ariaramin.crypto;
 
 import android.app.Application;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -58,4 +61,5 @@ public class MainViewModel extends AndroidViewModel {
     public Flowable<AllMarketEntity> getAllMarketEntity() {
         return mainRepository.getAllMarketEntity();
     }
+
 }

@@ -5,6 +5,12 @@
     <string name="watch_list">Watchlist</string>
     <string name="top_gainers">Top Gainers</string>
     <string name="top_losers">Top Losers</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_hint">Search...</string>
+    <string name="not_found">Not found!</string>
+    <string name="_1d">1D</string>
+    <string name="_1m">1M</string>
+    <string name="_1w">1W</string>
+    <string name="_4h">4h</string>
+    <string name="_1h">1h</string>
+    <string name="_15m">15m</string>
 </resources>

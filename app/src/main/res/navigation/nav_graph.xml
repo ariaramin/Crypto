@@ -8,13 +8,25 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.ariaramin.crypto.ui.Fragments.HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/marketFragment"
         android:name="com.ariaramin.crypto.ui.Fragments.MarketFragment"
-        tools:layout="@layout/fragment_market" />
+        tools:layout="@layout/fragment_market" >
+        <action
+            android:id="@+id/action_marketFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/watchListFragment"
         android:name="com.ariaramin.crypto.ui.Fragments.WatchListFragment"
         tools:layout="@layout/fragment_watch_list" />
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.ariaramin.crypto.ui.Fragments.DetailFragment"
+        android:label="DetailFragment" />
 </navigation>

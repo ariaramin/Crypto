@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ariaramin.crypto.Adapters.TopGainLoseAdapter;
+import com.ariaramin.crypto.Adapters.CurrencyAdapter;
 import com.ariaramin.crypto.MainViewModel;
 import com.ariaramin.crypto.Models.AllMarket;
 import com.ariaramin.crypto.Models.DataItem;
@@ -35,6 +35,7 @@ public class TopGainLoseFragment extends Fragment {
     FragmentTopGainLoseBinding topGainLoseBinding;
     MainViewModel mainViewModel;
     CompositeDisposable compositeDisposable;
+    private static final String TAG = "topGainLose";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,11 +83,17 @@ public class TopGainLoseFragment extends Fragment {
                         }
 
                         if (topGainLoseBinding.topGainLoseRecyclerView.getAdapter() == null) {
-                            TopGainLoseAdapter topGainLoseAdapter = new TopGainLoseAdapter(data);
-                            topGainLoseBinding.topGainLoseRecyclerView.setAdapter(topGainLoseAdapter);
+                            CurrencyAdapter currencyAdapter = new CurrencyAdapter(TAG, data);
+                            topGainLoseBinding.topGainLoseRecyclerView.setAdapter(currencyAdapter);
                         } else {
-                            TopGainLoseAdapter topGainLoseAdapter = (TopGainLoseAdapter) topGainLoseBinding.topGainLoseRecyclerView.getAdapter();
-                            topGainLoseAdapter.updateList(data);
+                            CurrencyAdapter currencyAdapter = (CurrencyAdapter) topGainLoseBinding.topGainLoseRecyclerView.getAdapter();
+                            currencyAdapter.updateList(data);
+                        }
+
+                        if (dataItems.isEmpty()) {
+                            topGainLoseBinding.spinKitView.setVisibility(View.VISIBLE);
+                        } else {
+                            topGainLoseBinding.spinKitView.setVisibility(View.GONE);
                         }
                     }
                 });
