@@ -56,12 +56,6 @@ public class MarketFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setupToolbar(view);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -132,23 +126,5 @@ public class MarketFragment extends Fragment {
                 });
 
         compositeDisposable.add(disposable);
-    }
-
-    private void setupToolbar(View view) {
-        NavController navController = Navigation.findNavController(view);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.marketFragment)
-                .setOpenableLayout(mainActivity.drawerLayout)
-                .build();
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
-        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-            @Override
-            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                if (destination.getId() == R.id.marketFragment) {
-                    toolbar.setTitle(R.string.market);
-                    toolbar.setNavigationIcon(R.drawable.ic_align_left);
-                }
-            }
-        });
     }
 }

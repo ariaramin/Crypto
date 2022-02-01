@@ -60,12 +60,6 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setupToolbar(view);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -143,24 +137,6 @@ public class HomeFragment extends Fragment {
                 homeBinding.sliderView.setSliderTransformAnimation(SliderAnimations.FADETRANSFORMATION);
                 homeBinding.sliderView.setScrollTimeInSec(5);
                 homeBinding.sliderView.startAutoCycle();
-            }
-        });
-    }
-
-    private void setupToolbar(View view) {
-        NavController navController = Navigation.findNavController(view);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment)
-                .setOpenableLayout(mainActivity.drawerLayout)
-                .build();
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
-        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-            @Override
-            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                if (destination.getId() == R.id.homeFragment) {
-                    toolbar.setTitle(R.string.app_name);
-                    toolbar.setNavigationIcon(R.drawable.ic_align_left);
-                }
             }
         });
     }

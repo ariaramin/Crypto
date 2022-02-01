@@ -7,6 +7,7 @@
     <string name="top_losers">Top Losers</string>
     <string name="search_hint">Search...</string>
     <string name="not_found">Not found!</string>
+    <string name="empty_watchlist">Watchlist is empty!</string>
     <string name="_1d">1D</string>
     <string name="_1m">1M</string>
     <string name="_1w">1W</string>

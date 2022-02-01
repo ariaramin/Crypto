@@ -19,7 +19,6 @@
             android:id="@+id/detailAppbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/royal_blue_dark"
             android:paddingStart="12dp"
             android:paddingTop="8dp"
             android:paddingRight="12dp"
@@ -45,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:padding="8dp"
-                android:src="@drawable/ic_arrow_left"
+                android:src="@drawable/ic_back_stack"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -224,33 +223,28 @@
             android:id="@+id/AllDetail"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:padding="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/detail_content_bg"
+            android:paddingStart="12dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/detailChart">
 
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/detailRecyclerView"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:cardBackgroundColor="@color/royal_blue_dark"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="8dp"
-                app:contentPadding="8dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/detailRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-            </androidx.cardview.widget.CardView>
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

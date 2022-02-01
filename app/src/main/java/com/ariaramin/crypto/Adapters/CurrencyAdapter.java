@@ -48,8 +48,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
     }
 
     public void updateList(List<DataItem> dataItemList) {
-        dataItems.clear();
-        dataItems.addAll(dataItemList);
+        dataItems = dataItemList;
         notifyDataSetChanged();
     }
 
@@ -76,10 +75,16 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.Curren
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("Coin", dataItem);
 
-                    if (tag.equals("topGainLose")) {
-                        Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_detailFragment, bundle);
-                    } else if (tag.equals("market")) {
-                        Navigation.findNavController(v).navigate(R.id.action_marketFragment_to_detailFragment, bundle);
+                    switch (tag) {
+                        case "topGainLose":
+                            Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_detailFragment, bundle);
+                            break;
+                        case "market":
+                            Navigation.findNavController(v).navigate(R.id.action_marketFragment_to_detailFragment, bundle);
+                            break;
+                        case "watchlist":
+                            Navigation.findNavController(v).navigate(R.id.action_watchListFragment_to_detailFragment, bundle);
+                            break;
                     }
                 }
             });

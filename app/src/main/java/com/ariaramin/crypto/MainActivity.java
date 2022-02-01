@@ -6,6 +6,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.net.ConnectivityManager;
@@ -39,9 +40,6 @@ import me.ibrahimsn.lib.SmoothBottomBar;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding activityMainBinding;
-    NavController navController;
-    NavHostFragment navHostFragment;
-    public DrawerLayout drawerLayout;
     MainViewModel mainViewModel;
     CompositeDisposable compositeDisposable;
     @Inject
@@ -54,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        drawerLayout = activityMainBinding.drawerLayout;
         smoothBottomBar = activityMainBinding.bottomBar;
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         compositeDisposable = new CompositeDisposable();
@@ -116,14 +113,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupNavigationComponent() {
         // Get nav host and nav controller
-        navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
-        navController = navHostFragment.getNavController();
-        NavigationUI.setupWithNavController(activityMainBinding.navigationView, navController);
-
-        setupSmoothBottomMenu();
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        NavController navController = navHostFragment.getNavController();
+        setupSmoothBottomMenu(navController);
     }
 
-    private void setupSmoothBottomMenu() {
+    private void setupSmoothBottomMenu(NavController navController) {
         PopupMenu popupMenu = new PopupMenu(this, null);
         popupMenu.inflate(R.menu.bottom_nav_menu);
         Menu menu = popupMenu.getMenu();

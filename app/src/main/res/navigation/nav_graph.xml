@@ -23,8 +23,12 @@
     </fragment>
     <fragment
         android:id="@+id/watchListFragment"
-        android:name="com.ariaramin.crypto.ui.Fragments.WatchListFragment"
-        tools:layout="@layout/fragment_watch_list" />
+        android:name="com.ariaramin.crypto.ui.Fragments.WatchlistFragment"
+        tools:layout="@layout/fragment_watchlist" >
+        <action
+            android:id="@+id/action_watchListFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.ariaramin.crypto.ui.Fragments.DetailFragment"

@@ -30,7 +30,6 @@ import java.util.ArrayList;
 public class DetailFragment extends Fragment {
 
     FragmentDetailBinding detailBinding;
-    DataItem dataItem;
     ArrayList<String> watchlist;
     Boolean watchlistIsChecked = false;
     MainActivity mainActivity;
@@ -49,7 +48,7 @@ public class DetailFragment extends Fragment {
         // Inflate the layout for this fragment
         detailBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false);
         Bundle args = getArguments();
-        dataItem = args.getParcelable("Coin");
+        DataItem dataItem = args.getParcelable("Coin");
         mainActivity.smoothBottomBar.setVisibility(View.GONE);
         detailBinding.backStackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,23 +57,23 @@ public class DetailFragment extends Fragment {
             }
         });
 
-        setupDetail();
+        setupDetail(dataItem);
         readData();
-        addToWatchlist();
-        loadChart();
-        setButtonsClickListener();
-        setupDetailRecyclerView();
+        addToWatchlist(dataItem);
+        loadChart(dataItem);
+        setButtonsClickListener(dataItem);
+        setupDetailRecyclerView(dataItem);
         return detailBinding.getRoot();
     }
 
-    private void setupDetailRecyclerView() {
+    private void setupDetailRecyclerView(DataItem dataItem) {
         fillDetailKeys();
-        fillDetailValues();
+        fillDetailValues(dataItem);
         DetailAdapter detailAdapter = new DetailAdapter(detailKeysArray, detailValuesArray);
         detailBinding.detailRecyclerView.setAdapter(detailAdapter);
     }
 
-    private void fillDetailValues() {
+    private void fillDetailValues(DataItem dataItem) {
         detailValuesArray = new ArrayList<>();
 
         String marketCap = dataItem.getListQuote().get(0).getMarketCap().toString().split("\\.")[0];
@@ -127,14 +126,14 @@ public class DetailFragment extends Fragment {
         detailKeysArray.add("Total Supply");
     }
 
-    private void setupDetail() {
+    private void setupDetail(DataItem dataItem) {
         detailBinding.detailSymbolTextView.setText(dataItem.getSymbol());
-        loadCoinLogo();
-        setPriceDecimal();
-        setChange();
+        loadCoinLogo(dataItem);
+        setPriceDecimal(dataItem);
+        setChange(dataItem);
     }
 
-    private void loadCoinLogo() {
+    private void loadCoinLogo(DataItem dataItem) {
         Glide.with(detailBinding.getRoot().getContext())
                 .load("https://s2.coinmarketcap.com/static/img/coins/64x64/" + dataItem.getId() + ".png")
                 .thumbnail(
@@ -143,7 +142,7 @@ public class DetailFragment extends Fragment {
                 .into(detailBinding.detailImageView);
     }
 
-    private void setPriceDecimal() {
+    private void setPriceDecimal(DataItem dataItem) {
         if (dataItem.getListQuote().get(0).getPrice() < 1) {
             detailBinding.detailPriceTextView.setText(String.format("$%.8f", dataItem.getListQuote().get(0).getPrice()));
         } else if (dataItem.getListQuote().get(0).getPrice() < 10) {
@@ -153,7 +152,7 @@ public class DetailFragment extends Fragment {
         }
     }
 
-    private void setChange() {
+    private void setChange(DataItem dataItem) {
         if (dataItem.getListQuote().get(0).getPercentChange24h() < 0) {
             int red = detailBinding.getRoot().getContext().getResources().getColor(R.color.red);
             detailBinding.detailChangeTextView.setTextColor(red);
@@ -167,7 +166,10 @@ public class DetailFragment extends Fragment {
         }
     }
 
-    private void addToWatchlist() {
+    private void addToWatchlist(DataItem dataItem) {
+
+        readData();
+
         if (watchlist.contains(dataItem.getSymbol())) {
             detailBinding.addWatchlistButton.setImageResource(R.drawable.ic_star);
             watchlistIsChecked = true;
@@ -214,7 +216,7 @@ public class DetailFragment extends Fragment {
         editor.apply();
     }
 
-    private void setButtonsClickListener() {
+    private void setButtonsClickListener(DataItem dataItem) {
         Button oneMonth = detailBinding.button;
         Button oneWeek = detailBinding.button1;
         Button oneDay = detailBinding.button2;
@@ -225,17 +227,17 @@ public class DetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (v.getId() == fifteenMin.getId()) {
-                    loadChart(v, "15", oneMonth, oneWeek, oneDay, fourHour, oneHour);
+                    loadChart(v, "15", dataItem, oneMonth, oneWeek, oneDay, fourHour, oneHour);
                 } else if (v.getId() == oneHour.getId()) {
-                    loadChart(v, "1H", oneMonth, oneWeek, oneDay, fourHour, fifteenMin);
+                    loadChart(v, "1H", dataItem, oneMonth, oneWeek, oneDay, fourHour, fifteenMin);
                 } else if (v.getId() == fourHour.getId()) {
-                    loadChart(v, "4H", oneMonth, oneWeek, oneDay, oneHour, fifteenMin);
+                    loadChart(v, "4H", dataItem, oneMonth, oneWeek, oneDay, oneHour, fifteenMin);
                 } else if (v.getId() == oneDay.getId()) {
-                    loadChart(v, "D", oneMonth, oneWeek, fourHour, oneHour, fifteenMin);
+                    loadChart(v, "D", dataItem, oneMonth, oneWeek, fourHour, oneHour, fifteenMin);
                 } else if (v.getId() == oneWeek.getId()) {
-                    loadChart(v, "W", oneMonth, oneDay, fourHour, oneHour, fifteenMin);
+                    loadChart(v, "W", dataItem, oneMonth, oneDay, fourHour, oneHour, fifteenMin);
                 } else if (v.getId() == oneMonth.getId()) {
-                    loadChart(v, "M", oneWeek, oneDay, fourHour, oneHour, fifteenMin);
+                    loadChart(v, "M", dataItem, oneWeek, oneDay, fourHour, oneHour, fifteenMin);
                 }
             }
         };
@@ -247,7 +249,7 @@ public class DetailFragment extends Fragment {
         fifteenMin.setOnClickListener(clickListener);
     }
 
-    public void loadChart(View view, String interval, Button btn, Button btn2, Button btn3, Button btn4, Button btn5) {
+    public void loadChart(View view, String interval, DataItem dataItem, Button btn, Button btn2, Button btn3, Button btn4, Button btn5) {
         disableAllButton(btn, btn2, btn3, btn4, btn5);
         WebView webView = detailBinding.detaillChartWebView;
         view.setBackgroundResource(R.drawable.active_button);
@@ -256,7 +258,7 @@ public class DetailFragment extends Fragment {
         webView.loadUrl("https://s.tradingview.com/widgetembed/?frameElementId=tradingview_76d87&symbol=" + dataItem.getSymbol() + "USD&interval=" + interval + "&hidesidetoolbar=1&hidetoptoolbar=1&symboledit=1&saveimage=1&toolbarbg=F1F3F6&studies=[]&hideideas=1&theme=Dark&style=1&timezone=Etc%2FUTC&studies_overrides={}&overrides={}&enabled_features=[]&disabled_features=[]&locale=en&utm_source=coinmarketcap.com&utm_medium=widget&utm_campaign=chart&utm_term=BTCUSDT");
     }
 
-    private void loadChart() {
+    private void loadChart(DataItem dataItem) {
         detailBinding.detaillChartWebView.getSettings().setJavaScriptEnabled(true);
         detailBinding.detaillChartWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         detailBinding.detaillChartWebView.loadUrl("https://s.tradingview.com/widgetembed/?frameElementId=tradingview_76d87&symbol=" + dataItem.getSymbol() + "USD&interval=D&hidesidetoolbar=1&hidetoptoolbar=1&symboledit=1&saveimage=1&toolbarbg=F1F3F6&studies=[]&hideideas=1&theme=Dark&style=1&timezone=Etc%2FUTC&studies_overrides={}&overrides={}&enabled_features=[]&disabled_features=[]&locale=en&utm_source=coinmarketcap.com&utm_medium=widget&utm_campaign=chart&utm_term=BTCUSDT");

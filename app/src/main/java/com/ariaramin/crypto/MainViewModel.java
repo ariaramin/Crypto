@@ -1,17 +1,12 @@
 package com.ariaramin.crypto;
 
 import android.app.Application;
-import android.view.View;
-import android.webkit.WebView;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.ariaramin.crypto.MainRepository;
 import com.ariaramin.crypto.Models.AllMarket;
-import com.ariaramin.crypto.R;
 import com.ariaramin.crypto.Room.Entities.AllMarketEntity;
 
 import java.util.ArrayList;
@@ -38,11 +33,11 @@ public class MainViewModel extends AndroidViewModel {
 
     void getViewPagerData() {
         ArrayList<Integer> images = new ArrayList<>();
-        images.add(R.drawable.p1);
-        images.add(R.drawable.p2);
-        images.add(R.drawable.p3);
-        images.add(R.drawable.p4);
-        images.add(R.drawable.p5);
+        images.add(R.drawable.banner);
+        images.add(R.drawable.banner2);
+        images.add(R.drawable.banner3);
+        images.add(R.drawable.banner4);
+        images.add(R.drawable.banner5);
         sliderData.postValue(images);
     }
 
