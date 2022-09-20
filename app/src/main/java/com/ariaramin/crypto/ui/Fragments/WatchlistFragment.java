@@ -82,50 +82,47 @@ public class WatchlistFragment extends Fragment {
         Disposable disposable = mainViewModel.getAllMarketEntity()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<AllMarketEntity>() {
-                    @Override
-                    public void accept(AllMarketEntity allMarketEntity) throws Throwable {
-                        AllMarket allMarket = allMarketEntity.getAllMarket();
-                        List<DataItem> dataItems = allMarket.getData().getCryptoCurrencyList();
+                .subscribe(allMarketEntity -> {
+                    AllMarket allMarket = allMarketEntity.getAllMarket();
+                    List<DataItem> dataItems = allMarket.getData().getCryptoCurrencyList();
 
-                        watchlistItems.clear();
-                        for (int i = 0; i < watchlist.size(); i++) {
-                            for (int j = 0; j < dataItems.size(); j++) {
-                                if (watchlist.get(i).equals(dataItems.get(j).getSymbol())) {
-                                    watchlistItems.add(dataItems.get(j));
-                                }
+                    watchlistItems.clear();
+                    for (int i = 0; i < watchlist.size(); i++) {
+                        for (int j = 0; j < dataItems.size(); j++) {
+                            if (watchlist.get(i).equals(dataItems.get(j).getSymbol())) {
+                                watchlistItems.add(dataItems.get(j));
                             }
                         }
-
-                        if (watchListBinding.watchlistRecyclerView.getAdapter() == null) {
-                            CurrencyAdapter currencyAdapter = new CurrencyAdapter(TAG, watchlistItems);
-                            watchListBinding.watchlistRecyclerView.setAdapter(currencyAdapter);
-                        } else {
-                            CurrencyAdapter currencyAdapter = (CurrencyAdapter) watchListBinding.watchlistRecyclerView.getAdapter();
-                            currencyAdapter.updateList(watchlistItems);
-                        }
-
-                        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-                            @Override
-                            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                                return false;
-                            }
-
-                            @Override
-                            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                                int position = viewHolder.getAdapterPosition();
-                                String coinName = watchlistItems.get(position).getName();
-                                watchlistItems.remove(position);
-                                watchlist.remove(position);
-                                storeData(watchlist);
-                                watchListBinding.watchlistRecyclerView.getAdapter().notifyItemRemoved(position);
-                                Toast.makeText(mainActivity, coinName+" removed from your watchlist", Toast.LENGTH_SHORT).show();
-                                if (watchlist.isEmpty()) {
-                                    watchListBinding.emptyTextView.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        }).attachToRecyclerView(watchListBinding.watchlistRecyclerView);
                     }
+
+                    if (watchListBinding.watchlistRecyclerView.getAdapter() == null) {
+                        CurrencyAdapter currencyAdapter = new CurrencyAdapter(TAG, watchlistItems);
+                        watchListBinding.watchlistRecyclerView.setAdapter(currencyAdapter);
+                    } else {
+                        CurrencyAdapter currencyAdapter = (CurrencyAdapter) watchListBinding.watchlistRecyclerView.getAdapter();
+                        currencyAdapter.updateList(watchlistItems);
+                    }
+
+                    new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+                        @Override
+                        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                            return false;
+                        }
+
+                        @Override
+                        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                            int position = viewHolder.getAdapterPosition();
+                            String coinName = watchlistItems.get(position).getName();
+                            watchlistItems.remove(position);
+                            watchlist.remove(position);
+                            storeData(watchlist);
+                            watchListBinding.watchlistRecyclerView.getAdapter().notifyItemRemoved(position);
+                            Toast.makeText(mainActivity, coinName+" removed from your watchlist", Toast.LENGTH_SHORT).show();
+                            if (watchlist.isEmpty()) {
+                                watchListBinding.emptyTextView.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }).attachToRecyclerView(watchListBinding.watchlistRecyclerView);
                 });
 
         compositeDisposable.add(disposable);

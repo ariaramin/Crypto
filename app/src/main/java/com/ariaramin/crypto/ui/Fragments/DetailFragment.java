@@ -50,12 +50,7 @@ public class DetailFragment extends Fragment {
         Bundle args = getArguments();
         DataItem dataItem = args.getParcelable("Coin");
         mainActivity.smoothBottomBar.setVisibility(View.GONE);
-        detailBinding.backStackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requireActivity().onBackPressed();
-            }
-        });
+        detailBinding.backStackButton.setOnClickListener(v -> requireActivity().onBackPressed());
 
         setupDetail(dataItem);
         readData();
@@ -178,22 +173,19 @@ public class DetailFragment extends Fragment {
             watchlistIsChecked = false;
         }
 
-        detailBinding.addWatchlistButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!watchlistIsChecked) {
-                    if (!watchlist.contains(dataItem.getSymbol())) {
-                        watchlist.add(dataItem.getSymbol());
-                    }
-                    storeData();
-                    detailBinding.addWatchlistButton.setImageResource(R.drawable.ic_star);
-                    watchlistIsChecked = true;
-                } else {
-                    detailBinding.addWatchlistButton.setImageResource(R.drawable.ic_star_outline);
-                    watchlist.remove(dataItem.getSymbol());
-                    storeData();
-                    watchlistIsChecked = false;
+        detailBinding.addWatchlistButton.setOnClickListener(v -> {
+            if (!watchlistIsChecked) {
+                if (!watchlist.contains(dataItem.getSymbol())) {
+                    watchlist.add(dataItem.getSymbol());
                 }
+                storeData();
+                detailBinding.addWatchlistButton.setImageResource(R.drawable.ic_star);
+                watchlistIsChecked = true;
+            } else {
+                detailBinding.addWatchlistButton.setImageResource(R.drawable.ic_star_outline);
+                watchlist.remove(dataItem.getSymbol());
+                storeData();
+                watchlistIsChecked = false;
             }
         });
     }
@@ -223,22 +215,19 @@ public class DetailFragment extends Fragment {
         Button fourHour = detailBinding.button3;
         Button oneHour = detailBinding.button4;
         Button fifteenMin = detailBinding.button5;
-        View.OnClickListener clickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getId() == fifteenMin.getId()) {
-                    loadChart(v, "15", dataItem, oneMonth, oneWeek, oneDay, fourHour, oneHour);
-                } else if (v.getId() == oneHour.getId()) {
-                    loadChart(v, "1H", dataItem, oneMonth, oneWeek, oneDay, fourHour, fifteenMin);
-                } else if (v.getId() == fourHour.getId()) {
-                    loadChart(v, "4H", dataItem, oneMonth, oneWeek, oneDay, oneHour, fifteenMin);
-                } else if (v.getId() == oneDay.getId()) {
-                    loadChart(v, "D", dataItem, oneMonth, oneWeek, fourHour, oneHour, fifteenMin);
-                } else if (v.getId() == oneWeek.getId()) {
-                    loadChart(v, "W", dataItem, oneMonth, oneDay, fourHour, oneHour, fifteenMin);
-                } else if (v.getId() == oneMonth.getId()) {
-                    loadChart(v, "M", dataItem, oneWeek, oneDay, fourHour, oneHour, fifteenMin);
-                }
+        View.OnClickListener clickListener = v -> {
+            if (v.getId() == fifteenMin.getId()) {
+                loadChart(v, "15", dataItem, oneMonth, oneWeek, oneDay, fourHour, oneHour);
+            } else if (v.getId() == oneHour.getId()) {
+                loadChart(v, "1H", dataItem, oneMonth, oneWeek, oneDay, fourHour, fifteenMin);
+            } else if (v.getId() == fourHour.getId()) {
+                loadChart(v, "4H", dataItem, oneMonth, oneWeek, oneDay, oneHour, fifteenMin);
+            } else if (v.getId() == oneDay.getId()) {
+                loadChart(v, "D", dataItem, oneMonth, oneWeek, fourHour, oneHour, fifteenMin);
+            } else if (v.getId() == oneWeek.getId()) {
+                loadChart(v, "W", dataItem, oneMonth, oneDay, fourHour, oneHour, fifteenMin);
+            } else if (v.getId() == oneMonth.getId()) {
+                loadChart(v, "M", dataItem, oneWeek, oneDay, fourHour, oneHour, fifteenMin);
             }
         };
         oneMonth.setOnClickListener(clickListener);

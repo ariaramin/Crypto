@@ -89,39 +89,36 @@ public class MarketFragment extends Fragment {
         Disposable disposable = mainViewModel.getAllMarketEntity()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<AllMarketEntity>() {
-                    @Override
-                    public void accept(AllMarketEntity allMarketEntity) throws Throwable {
-                        AllMarket allMarket = allMarketEntity.getAllMarket();
-                        List<DataItem> dataItems = allMarket.getData().getCryptoCurrencyList();
-                        List<DataItem> data = new ArrayList<>();
+                .subscribe(allMarketEntity -> {
+                    AllMarket allMarket = allMarketEntity.getAllMarket();
+                    List<DataItem> dataItems = allMarket.getData().getCryptoCurrencyList();
+                    List<DataItem> data = new ArrayList<>();
 
-                        if (!searchedText.equals("")) {
-                            for (DataItem item:
-                                 dataItems) {
-                                String coinName = item.getName().toLowerCase(Locale.ROOT);
-                                String coinSymbol = item.getSymbol().toLowerCase(Locale.ROOT);
-                                if (coinName.contains(searchedText) || coinSymbol.contains(searchedText)) {
-                                    data.add(item);
-                                }
+                    if (!searchedText.equals("")) {
+                        for (DataItem item:
+                             dataItems) {
+                            String coinName = item.getName().toLowerCase(Locale.ROOT);
+                            String coinSymbol = item.getSymbol().toLowerCase(Locale.ROOT);
+                            if (coinName.contains(searchedText) || coinSymbol.contains(searchedText)) {
+                                data.add(item);
                             }
-                        } else {
-                            data = dataItems;
                         }
+                    } else {
+                        data = dataItems;
+                    }
 
-                        if (data.isEmpty()) {
-                            marketBinding.notFoundTextView.setVisibility(View.VISIBLE);
-                        } else {
-                            marketBinding.notFoundTextView.setVisibility(View.GONE);
-                        }
+                    if (data.isEmpty()) {
+                        marketBinding.notFoundTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        marketBinding.notFoundTextView.setVisibility(View.GONE);
+                    }
 
-                        if (marketBinding.currencyRecyclerView.getAdapter() == null) {
-                            CurrencyAdapter currencyAdapter = new CurrencyAdapter(TAG, dataItems);
-                            marketBinding.currencyRecyclerView.setAdapter(currencyAdapter);
-                        } else {
-                            CurrencyAdapter currencyAdapter = (CurrencyAdapter) marketBinding.currencyRecyclerView.getAdapter();
-                            currencyAdapter.updateList(data);
-                        }
+                    if (marketBinding.currencyRecyclerView.getAdapter() == null) {
+                        CurrencyAdapter currencyAdapter = new CurrencyAdapter(TAG, dataItems);
+                        marketBinding.currencyRecyclerView.setAdapter(currencyAdapter);
+                    } else {
+                        CurrencyAdapter currencyAdapter = (CurrencyAdapter) marketBinding.currencyRecyclerView.getAdapter();
+                        currencyAdapter.updateList(data);
                     }
                 });
 

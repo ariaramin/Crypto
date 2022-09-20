@@ -3,7 +3,7 @@
     <style name="Theme.Crypto" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/dark_blue</item>
-        <item name="colorPrimaryVariant">@color/royal_blue_dark</item>
+        <item name="colorPrimaryVariant">@color/dark_blue</item>
         <item name="colorAccent">@color/white</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Status bar color. -->

@@ -1,4 +1,4 @@
-package com.ariaramin.crypto.Hilt;
+package com.ariaramin.crypto;
 
 import android.app.Application;
 

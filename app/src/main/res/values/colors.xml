@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="royal_blue_dark">#022F6B</color>
-    <color name="dark_blue">#031B3B</color>
+    <color name="royal_blue_dark">#063370</color>
+    <color name="dark_blue">#051C3B</color>
     <color name="dark_purple">#473080</color>
     <color name="purple">#9C27B0</color>
     <color name="green">#4FC281</color>

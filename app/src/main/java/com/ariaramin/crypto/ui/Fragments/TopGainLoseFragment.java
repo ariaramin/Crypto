@@ -55,46 +55,40 @@ public class TopGainLoseFragment extends Fragment {
         Disposable disposable = mainViewModel.getAllMarketEntity()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<AllMarketEntity>() {
-                    @Override
-                    public void accept(AllMarketEntity allMarketEntity) throws Throwable {
-                        AllMarket allMarket = allMarketEntity.getAllMarket();
-                        List<DataItem> dataItems = allMarket.getData().getCryptoCurrencyList();
+                .subscribe(allMarketEntity -> {
+                    AllMarket allMarket = allMarketEntity.getAllMarket();
+                    List<DataItem> dataItems = allMarket.getData().getCryptoCurrencyList();
 
-                        // Sort data by change
-                        Collections.sort(dataItems, new Comparator<DataItem>() {
-                            @Override
-                            public int compare(DataItem o1, DataItem o2) {
-                                return Integer.compare((int) o2.getListQuote().get(0).getPercentChange24h(), (int) o1.getListQuote().get(0).getPercentChange24h());
-                            }
-                        });
+                    // Sort data by change
+                    Collections.sort(dataItems, (o1, o2) ->
+                            Integer.compare((int) o2.getListQuote().get(0).getPercentChange24h(), (int) o1.getListQuote().get(0).getPercentChange24h())
+                    );
 
-                        ArrayList<DataItem> data = new ArrayList<>();
-                        if (pos == 0) {
-                            // Get ten first items
-                            for (int i = 0; i < 10; i++) {
-                                data.add(dataItems.get(i));
-                            }
-                        } else {
-                            // Get ten last items
-                            for (int i = 0; i < 10; i++) {
-                                data.add(dataItems.get(dataItems.size() - 1 - i));
-                            }
+                    ArrayList<DataItem> data = new ArrayList<>();
+                    if (pos == 0) {
+                        // Get ten first items
+                        for (int i = 0; i < 10; i++) {
+                            data.add(dataItems.get(i));
                         }
-
-                        if (topGainLoseBinding.topGainLoseRecyclerView.getAdapter() == null) {
-                            CurrencyAdapter currencyAdapter = new CurrencyAdapter(TAG, data);
-                            topGainLoseBinding.topGainLoseRecyclerView.setAdapter(currencyAdapter);
-                        } else {
-                            CurrencyAdapter currencyAdapter = (CurrencyAdapter) topGainLoseBinding.topGainLoseRecyclerView.getAdapter();
-                            currencyAdapter.updateList(data);
+                    } else {
+                        // Get ten last items
+                        for (int i = 0; i < 10; i++) {
+                            data.add(dataItems.get(dataItems.size() - 1 - i));
                         }
+                    }
 
-                        if (dataItems.isEmpty()) {
-                            topGainLoseBinding.spinKitView.setVisibility(View.VISIBLE);
-                        } else {
-                            topGainLoseBinding.spinKitView.setVisibility(View.GONE);
-                        }
+                    if (topGainLoseBinding.topGainLoseRecyclerView.getAdapter() == null) {
+                        CurrencyAdapter currencyAdapter = new CurrencyAdapter(TAG, data);
+                        topGainLoseBinding.topGainLoseRecyclerView.setAdapter(currencyAdapter);
+                    } else {
+                        CurrencyAdapter currencyAdapter = (CurrencyAdapter) topGainLoseBinding.topGainLoseRecyclerView.getAdapter();
+                        currencyAdapter.updateList(data);
+                    }
+
+                    if (dataItems.isEmpty()) {
+                        topGainLoseBinding.spinKitView.setVisibility(View.VISIBLE);
+                    } else {
+                        topGainLoseBinding.spinKitView.setVisibility(View.GONE);
                     }
                 });
 
